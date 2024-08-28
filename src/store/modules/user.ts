@@ -7,13 +7,13 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 import { useLockscreenStore } from './lockscreen';
-import { useSSEStore } from './sse';
+// import { useSSEStore } from './sse';
 
 
 export const useUserStore = defineStore(
   'user',
   () => {
-    const sseStore = useSSEStore();
+    // const sseStore = useSSEStore();
     const lockscreenStore = useLockscreenStore();
     const token = ref<string>();
     const perms = ref<string[]>([]);
@@ -63,29 +63,27 @@ export const useUserStore = defineStore(
     const afterLogin = async () => {
       try {
         const userInfoData = await getUserPermission();
-        console.log(userInfoData)
-        userInfo.value = userInfoData;
+        userInfo.value = userInfoData?.user;
         await fetchPermsAndMenus();
-        sseStore.initServerMsgListener();
+        // sseStore.initServerMsgListener();
       } catch (error) {
-        console.log(error)
         return Promise.reject(error);
       }
     };
     /** 获取权限及菜单 */
     const fetchPermsAndMenus = async () => {
-      const { accountPermissions } = Api.account; // accountMenu
+      // const { accountPermissions } = Api.account; // accountMenu
       // accountMenu(), 
       // const wsStore = useWsStore();
-      const [permsData] = await Promise.all([accountPermissions()]); // menusData
-      perms.value = permsData;
+      // const [permsData] = await Promise.all([accountPermissions()]); // menusData
+      // perms.value = permsData;
       const result = generateDynamicRoutes([]);
       menus.value = sortMenus(result);
     };
     /** 登出 */
     const logout = async () => {
       await Api.account.accountLogout();
-      sseStore.closeEventSource();
+      // sseStore.closeEventSource();
       clearLoginStatus();
     };
 

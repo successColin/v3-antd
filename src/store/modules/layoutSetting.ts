@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
+import { themeColor, type ThemeColor } from '@/layout/header/components/setting/constant';
 import { theme as antdTheme } from 'ant-design-vue';
 import type { ThemeConfig } from 'ant-design-vue/es/config-provider/context';
-import { themeColor, type ThemeColor } from '@/layout/header/components/setting/constant';
+import { defineStore } from 'pinia';
 
 /**
  * 项目默认配置项

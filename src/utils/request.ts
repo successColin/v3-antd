@@ -1,5 +1,5 @@
 import { ResultEnum } from '@/enums/httpEnum';
-import { useSSEStore } from '@/store/modules/sse';
+// import { useSSEStore } from '@/store/modules/sse';
 import { useUserStore } from '@/store/modules/user';
 import { message as $message, Modal } from 'ant-design-vue';
 import type { AxiosResponse } from 'axios';
@@ -17,7 +17,6 @@ service.interceptors.request.use(
     if (token && config.headers) {
       config.headers['authorization'] = `Bearer ${token}`;
     }
-    console.log(config)
     return config;
   },
   (error) => {
@@ -47,8 +46,8 @@ service.interceptors.response.use(
       error.code = res.status;
       return Promise.reject(error);
     } else {
-      const sseStore = useSSEStore();
-      sseStore.setServerConnectStatus(true);
+      // const sseStore = useSSEStore();
+      // sseStore.setServerConnectStatus(true);
       return response;
     }
   },
@@ -70,12 +69,11 @@ type BaseResponse<T = any> = Omit<API.ResOp, 'data'> & {
 export async function request(url: string, config: any = {}) {
   try {
     const { requestType, isReturnResult = true, ...rest } = config;
-    console.log(`${baseApiUrl}/${url}`, (requestType === 'form' ? { 'Content-Type': 'multipart/form-data' } : {'Content-Type': 'application/json'}))
     const response = (await service.request({
       url: `${baseApiUrl}/${url}`,
       ...rest,
       headers: {
-        ...(requestType === 'form' ? { 'Content-Type': 'multipart/form-data' } : {'Content-Type': 'application/json'}),
+        ...(requestType === 'form' ? { 'Content-Type': 'multipart/form-data' } : ''),
         ...rest.headers,
       },
       // paramsSerializer: params => {

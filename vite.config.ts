@@ -7,8 +7,8 @@ import dayjs from 'dayjs';
 import { resolve } from 'node:path';
 import Unocss from 'unocss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
-// import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
-// import Components from 'unplugin-vue-components/vite';
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 import type { ConfigEnv, UserConfig } from 'vite';
 import { loadEnv } from 'vite';
 // import checker from 'vite-plugin-checker';
@@ -69,25 +69,25 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         // Specify symbolId format
         symbolId: 'svg-icon-[dir]-[name]',
       }),
-      // Components({
-      //   dts: 'types/components.d.ts',
-      //   types: [
-      //     {
-      //       from: './src/components/basic/button/',
-      //       names: ['AButton'],
-      //     },
-      //     {
-      //       from: 'vue-router',
-      //       names: ['RouterLink', 'RouterView'],
-      //     },
-      //   ],
-      //   resolvers: [
-      //     AntDesignVueResolver({
-      //       importStyle: false, // css in js
-      //       exclude: ['Button'],
-      //     }),
-      //   ],
-      // }),
+      Components({
+        dts: 'types/components.d.ts',
+        types: [
+          {
+            from: './src/components/basic/button/',
+            names: ['AButton'],
+          },
+          {
+            from: 'vue-router',
+            names: ['RouterLink', 'RouterView'],
+          },
+        ],
+        resolvers: [
+          AntDesignVueResolver({
+            importStyle: false, // css in js
+            exclude: ['Button'],
+          }),
+        ],
+      }),
       // https://github.com/fi3ework/vite-plugin-checker
       // isDev &&
       //   checker({
@@ -118,16 +118,16 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       },
     },
     server: {
-      host: '0.0.0.0',
+      host: true,
       port: 8088,
       open: true,
       proxy: {
-        'api': {
+        '/api': {
           // target: 'https://nest-api.buqiyuan.site',
-          // target: 'http://172.16.91.121:8888', // 李凯
-          target: 'http://172.16.91.91:8888',
+          target: 'http://172.16.91.121:8888', // 李凯
+          // target: 'http://172.16.91.91:8888', // 元凯
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`api`), ''),
+          rewrite: (path) => path.replace(new RegExp(`/api`), ''),
         },
         // '^/upload': {
         //   target: 'https://nest-api.buqiyuan.site/upload',

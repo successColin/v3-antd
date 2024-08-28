@@ -34,11 +34,11 @@
 </template>
 
 <script setup lang="ts">
-  import { useKeepAliveStore } from '@/store/modules/keepAlive'
-  import { useTabsViewStore } from '@/store/modules/tabsView'
-  import { computed, ref } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-  import TabsOperator from './tabs-operator.vue'
+  import { useKeepAliveStore } from "@/store/modules/keepAlive"
+  import { useTabsViewStore } from "@/store/modules/tabsView"
+  import { computed, ref } from "vue"
+  import { useRoute, useRouter } from "vue-router"
+  import TabsOperator from "./tabs-operator.vue"
 
   type TabsOperatorInstance = InstanceType<typeof TabsOperator>
 
@@ -50,7 +50,7 @@
   const itemRefs: Recordable<TabsOperatorInstance | null> = {}
 
   // 解决路由切换动画出现滚动条闪烁问题
-  const overflow = ref('auto')
+  const overflow = ref("auto")
   const activeKey = computed(() => tabsViewStore.getCurrentTab?.fullPath)
   // 缓存的路由组件列表
   const keepAliveComponents = computed(() => keepAliveStore.list)
@@ -58,14 +58,14 @@
   const transitionName = computed(() => {
     const name = route.meta?.transitionName
     if (name === false) {
-      return ''
+      return ""
     }
-    return name ?? 'fade-slide'
+    return name ?? "fade-slide"
   })
 
   // tabs 编辑（remove || add）
   const editTabItem = (targetKey: string, action: string) => {
-    if (action == 'remove') {
+    if (action == "remove") {
       itemRefs[targetKey]?.removeTab()
     }
   }
@@ -134,9 +134,10 @@
     .tabs-view-content {
       height: calc(100vh - 174px - var(--app-footer-height));
       margin: 10px;
-      overflow: auto;
+      overflow: hidden;
       background: #fff;
       border-radius: 4px;
+      padding: 10px;
     }
   }
 </style>

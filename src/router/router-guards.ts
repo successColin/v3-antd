@@ -15,7 +15,6 @@ const defaultRoutePath = '/home'
 
 export function createRouterGuards(router: Router, whiteNameList: WhiteNameList) {
   router.beforeEach(async (to, from, next) => {
-    console.log(1111)
     if (!from.meta?.hideProgressBar || !to.meta?.hideProgressBar) {
       NProgress.start()
     }
@@ -36,13 +35,14 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
         if (userStore.menus.length === 0) {
           // 从后台获取菜单
           const [err] = await _to(userStore.afterLogin())
+          console.log(to.name, err)
           if (err) {
             userStore.clearLoginStatus()
             Modal.destroyAll()
             return next({ name: LOGIN_NAME })
           }
           // 解决警告：No match found for location with path "XXXXXXX"
-          console.log(to.name)
+          
           if (to.name === PAGE_NOT_FOUND_NAME) {
             next({ path: to.fullPath, replace: true })
           } else if (!hasRoute) {

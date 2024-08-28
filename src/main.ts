@@ -1,4 +1,4 @@
-import { setupAntd, setupAssets, setupGlobalMethods } from '@/plugins';
+import { registerGlobalComponents, setupAntd, setupAssets, setupGlobalMethods } from '@/plugins';
 import { setupStore } from '@/store';
 import 'core-js/actual/promise/with-resolvers';
 import { createApp } from 'vue';
@@ -17,6 +17,8 @@ function setupPlugins() {
   setupAssets();
   // 注册全局方法，如：app.config.globalProperties.$message = message
   setupGlobalMethods(app);
+  // 注册全局组件
+  registerGlobalComponents(app);
 }
 
 async function setupApp() {

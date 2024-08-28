@@ -4,8 +4,8 @@
     header-title="在线用户"
     title-tooltip="这是真实操作，请不要随意将其他用户踢下线。"
     :data-source="list"
-    :columns
-    :loading
+    :columns="columns"
+    :loading="loading"
     @change="handleChange"
     @search="handleSearch"
     @reload="handleReload"
@@ -22,7 +22,7 @@
   import type { TableColumn } from '@/components/core/dynamic-table'
   import { useTable } from '@/components/core/dynamic-table'
   import { Api } from '@/api/'
-  import { useSSEStore } from '@/store/modules/sse'
+  // import { useSSEStore } from '@/store/modules/sse'
 
   defineOptions({
     name: 'SystemMonitorOnline'
@@ -32,7 +32,7 @@
   const realTimeUpdate = ref(true)
   const list = ref<TableListItem[]>([])
   const loading = ref(false)
-  const sseStore = useSSEStore()
+  // const sseStore = useSSEStore()
   const [DynamicTable, dynamicTableInstance] = useTable({ size: 'small' })
 
   const columns: TableColumn<TableListItem>[] = [
@@ -81,11 +81,11 @@
     list.value = originList
   }
 
-  const onOnlineUserChange = () => {
-    if (realTimeUpdate.value) {
-      handleReload()
-    }
-  }
+  // const onOnlineUserChange = () => {
+  //   if (realTimeUpdate.value) {
+  //     handleReload()
+  //   }
+  // }
 
   watch(realTimeUpdate, (val) => {
     val && handleReload()
@@ -93,10 +93,10 @@
 
   onMounted(() => {
     handleReload()
-    sseStore.emitter.on('onlineUser', onOnlineUserChange)
+    // sseStore.emitter.on('onlineUser', onOnlineUserChange)
   })
 
   onBeforeUnmount(() => {
-    sseStore.emitter.off('onlineUser', onOnlineUserChange)
+    // sseStore.emitter.off('onlineUser', onOnlineUserChange)
   })
 </script>

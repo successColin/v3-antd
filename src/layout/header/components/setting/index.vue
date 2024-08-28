@@ -1,7 +1,7 @@
 <template>
   <SettingOutlined class="colorfff" style="cursor: pointer" @click="showDrawer" />
   <Drawer v-model:open="visible" placement="right" :closable="false">
-    <Descriptions title="整体风格" :column="5">
+    <!-- <Descriptions title="整体风格" :column="5">
       <Descriptions.Item v-for="theme in themeStyle" :key="theme.value">
         <Tooltip :title="theme.label">
           <div
@@ -13,7 +13,7 @@
           </div>
         </Tooltip>
       </Descriptions.Item>
-    </Descriptions>
+    </Descriptions> -->
     <Descriptions title="主题色" :column="9">
       <Descriptions.Item v-for="item in themeColors" :key="item.key">
         <div class="style-checbox-item">
@@ -64,17 +64,17 @@
 </template>
 
 <script lang="ts" setup>
-  import type { LayoutSetting } from '@/store/modules/layoutSetting'
-  import { useLayoutSettingStore } from '@/store/modules/layoutSetting'
-  import { SettingOutlined } from '@ant-design/icons-vue'
-  import { Descriptions, Drawer, Tag, Tooltip } from 'ant-design-vue'
-  import { storeToRefs } from 'pinia'
-  import { computed, ref, type StyleValue } from 'vue'
-  import type { ThemeColor } from './constant'
-  import { layouts, themeColors, themeStyle, uiSettings } from './constant'
+  import type { LayoutSetting } from "@/store/modules/layoutSetting"
+  import { useLayoutSettingStore } from "@/store/modules/layoutSetting"
+  import { SettingOutlined } from "@ant-design/icons-vue"
+  import { Descriptions, Drawer, Tag, Tooltip } from "ant-design-vue"
+  import { storeToRefs } from "pinia"
+  import { computed, ref, type StyleValue } from "vue"
+  // import type { ThemeColor } from './constant'
+  import { layouts, themeColors, uiSettings } from "./constant" // themeStyle
 
   defineOptions({
-    name: 'ProjectSetting'
+    name: "ProjectSetting"
   })
 
   const layoutSettingStore = useLayoutSettingStore()
@@ -82,12 +82,12 @@
   const customColor = ref(layoutSetting.value.colorPrimary)
   const visible = ref(false)
 
-  const colorPickerStyle = computed(() => ({ '--custom-color': customColor.value }) as StyleValue)
+  const colorPickerStyle = computed(() => ({ "--custom-color": customColor.value }) as StyleValue)
 
-  const setNavTheme = (theme: ThemeColor) => {
-    layoutSettingStore.updateLayoutSetting({ navTheme: theme })
-  }
-  const setLayout = (layout: LayoutSetting['layout']) => {
+  // const setNavTheme = (theme: ThemeColor) => {
+  //   layoutSettingStore.updateLayoutSetting({ navTheme: theme })
+  // }
+  const setLayout = (layout: LayoutSetting["layout"]) => {
     layoutSettingStore.updateLayoutSetting({ layout })
   }
 
@@ -95,7 +95,7 @@
     layoutSettingStore.updateLayoutSetting({ colorPrimary })
   }
 
-  const getThemeColorVisible = (color) => (layoutSetting.value.colorPrimary === color ? 'visible' : 'hidden')
+  const getThemeColorVisible = (color) => (layoutSetting.value.colorPrimary === color ? "visible" : "hidden")
 
   // const getImageUrl = (theme: ThemeName) => {
   //   return new URL(`/src/assets/icons/${theme}.svg`, import.meta.url).href;
@@ -112,7 +112,7 @@
     cursor: pointer;
 
     &.active::after {
-      content: '✔';
+      content: "✔";
       position: absolute;
       right: 12px;
       bottom: 10px;
@@ -120,7 +120,7 @@
     }
   }
 
-  input[type='color'] {
+  input[type="color"] {
     width: 40px;
     height: 40px;
     padding: 0;

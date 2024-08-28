@@ -1,9 +1,9 @@
-import { ref, watch } from 'vue';
-import { defineStore } from 'pinia';
+import { uniqueSlash } from '@/utils/urlUtils';
 import { useIdle } from '@vueuse/core';
 import mitt from 'mitt';
+import { defineStore } from 'pinia';
+import { ref, watch } from 'vue';
 import { useUserStore } from './user';
-import { uniqueSlash } from '@/utils/urlUtils';
 
 export type MessageEvent = {
   data?: any;
@@ -50,6 +50,7 @@ export const useSSEStore = defineStore('sse', () => {
       eventSource.close();
     }
     const uid = userStore.userInfo.id;
+    console.log(eventSource, uid)
     if (!uid) return;
     const sseUrl = uniqueSlash(
       `${import.meta.env.VITE_BASE_API_URL}/api/sse/${uid}?token=${userStore.token}`,
