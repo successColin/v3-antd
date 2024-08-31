@@ -3,6 +3,7 @@ import { getUserPermission } from '@/api/home';
 import { resetRouter } from '@/router';
 import { generateDynamicRoutes } from '@/router/helper/routeHelper';
 import { store } from '@/store';
+import { execDecrypt } from "@/utils/aes";
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
@@ -63,7 +64,11 @@ export const useUserStore = defineStore(
     const afterLogin = async () => {
       try {
         const userInfoData = await getUserPermission();
-        userInfo.value = userInfoData?.user;
+        const userInfoObj = userInfoData?.user;
+        userInfoObj.nickName = execDecrypt(userInfoObj.nickName);
+        userInfoObj.phonenumber = execDecrypt(userInfoObj.phonenumber);
+        userInfoObj.userName = execDecrypt(userInfoObj.userName);
+        userInfo.value = userInfoObj;
         await fetchPermsAndMenus();
         // sseStore.initServerMsgListener();
       } catch (error) {

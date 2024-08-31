@@ -1,10 +1,10 @@
 import {
-  transformerVariantGroup,
-  transformerDirectives,
-  presetAttributify,
   defineConfig,
+  presetAttributify,
   presetMini,
   presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
 } from 'unocss';
 
 // https://github.com/unocss/unocss#readme
@@ -20,6 +20,7 @@ export default defineConfig({
     'wh-full': 'w-full h-full',
     'flex-ac': 'flex justify-around items-center',
     'flex-bc': 'flex justify-between items-center',
+    'flex-cc': 'flex justify-center items-center flex-col',
   },
   theme: {},
 });

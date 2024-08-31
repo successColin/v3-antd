@@ -16,7 +16,7 @@ export function setupGlobalMethods(app: App) {
 }
 
 export function registerGlobalComponents(app: App) {
-  const components = import.meta.glob("../components/**/index.vue")
+  const components = import.meta.glob("../componentsGlobal/**/index.vue")
   for (const [path, resolve] of Object.entries(components)) {
     const arr = path.split("/")
     const componentName = arr[arr.length - 2]

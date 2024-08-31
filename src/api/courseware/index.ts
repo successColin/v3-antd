@@ -1,36 +1,41 @@
-// @ts-ignore
-/* eslint-disable */
+import { request } from '@/utils/request';
 
-/**
- * 该文件为 @umijs/openapi 插件自动生成，请勿随意修改。如需修改请通过配置 openapi.config.ts 进行定制化。
- * */
-
-import { request, type RequestOptions } from '@/utils/request';
-
-// 
-export async function accountLogout(options?: RequestOptions) {
-  return request<any>('/api/account/logout', {
-    method: 'GET',
-    ...(options || {}),
+// 获取当前登陆人班级-年级
+export async function getClassGrades() {
+  return request('sso/classGrades', {
+    method: 'get',
   });
 }
 
-/** 获取菜单列表 GET /api/account/menus */
-export async function accountMenu(options?: RequestOptions) {
-  return request<API.AccountMenus[]>('/api/account/menus', {
-    method: 'GET',
-    ...(options || {}),
+// 获取课件列表
+export async function getCourseList(params) {
+  return request('course/queryCourseList', {
+    method: 'get',
+    params
   });
 }
 
-/** 更改账户密码 POST /api/account/password */
-export async function accountPassword(body: API.PasswordUpdateDto, options?: RequestOptions) {
-  return request<any>('/api/account/password', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: body,
-    ...(options || {}),
+
+// 新增课本篇章节
+export async function addCourse(data) {
+  return request('course/add', {
+    method: 'post',
+    data
+  });
+}
+
+// 修改课本篇章节
+export async function editCourse(data) {
+  return request('course/edit', {
+    method: 'post',
+    data
+  });
+}
+
+// 删除课本篇章节
+export async function delCourse(data) {
+  return request('course/delete', {
+    method: 'post',
+    data
   });
 }

@@ -1,12 +1,12 @@
-import { asyncRoutes } from '../asyncModules'
-import type { RouteMeta, RouteRecordRaw } from 'vue-router'
 import IFramePage from '@/components/basic/iframe-page'
-import { warn } from '@/utils/log'
-import { rootRoute } from '@/router/routes'
 import router from '@/router'
+import { rootRoute } from '@/router/routes'
 import basic from '@/router/routes/basic'
 import routeModules from '@/router/routes/modules'
+import { warn } from '@/utils/log'
 import { uniqueSlash } from '@/utils/urlUtils'
+import type { RouteMeta, RouteRecordRaw } from 'vue-router'
+import { asyncRoutes } from '../asyncModules'
 
 export const transformMenuToRoutes = (routeList: RouteRecordRaw[], parentRoute?: RouteRecordRaw) => {
   routeList.forEach((route) => {
@@ -65,7 +65,6 @@ export const generateDynamicRoutes = (menus: RouteRecordRaw[]) => {
   genNamePathForRoutes(allRoute)
   rootRoute.children = allRoute
   router.addRoute(rootRoute)
-  console.log('routes', router.getRoutes())
   return routes
 }
 

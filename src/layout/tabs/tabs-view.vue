@@ -1,6 +1,6 @@
 <template>
   <div class="tabs-view">
-    <a-tabs :active-key="activeKey" hide-add type="editable-card" class="tabs" @change="changePage" @edit="editTabItem">
+    <!-- <a-tabs :active-key="activeKey" hide-add type="editable-card" class="tabs" @change="changePage" @edit="editTabItem">
       <a-tab-pane v-for="tabItem in tabsViewStore.getTabsList" :key="tabItem.fullPath">
         <template #tab>
           <TabsOperator :ref="(ins: TabsOperatorInstance) => (itemRefs[tabItem.fullPath] = ins)" :tab-item="tabItem" />
@@ -9,7 +9,7 @@
       <template #rightExtra>
         <TabsOperator :tab-item="route" :is-extra="true" />
       </template>
-    </a-tabs>
+    </a-tabs> -->
     <div class="tabs-view-content" :style="{ overflow }">
       <router-view v-slot="{ Component }">
         <template v-if="Component">
@@ -35,23 +35,23 @@
 
 <script setup lang="ts">
   import { useKeepAliveStore } from "@/store/modules/keepAlive"
-  import { useTabsViewStore } from "@/store/modules/tabsView"
+  // import { useTabsViewStore } from "@/store/modules/tabsView"
   import { computed, ref } from "vue"
-  import { useRoute, useRouter } from "vue-router"
-  import TabsOperator from "./tabs-operator.vue"
+  import { useRoute } from "vue-router" // useRouter
+  // import TabsOperator from "./tabs-operator.vue"
 
-  type TabsOperatorInstance = InstanceType<typeof TabsOperator>
+  // type TabsOperatorInstance = InstanceType<typeof TabsOperator>
 
   const route = useRoute()
-  const router = useRouter()
-  const tabsViewStore = useTabsViewStore()
+  // const router = useRouter()
+  // const tabsViewStore = useTabsViewStore()
   const keepAliveStore = useKeepAliveStore()
 
-  const itemRefs: Recordable<TabsOperatorInstance | null> = {}
+  // const itemRefs: Recordable<TabsOperatorInstance | null> = {}
 
   // 解决路由切换动画出现滚动条闪烁问题
   const overflow = ref("auto")
-  const activeKey = computed(() => tabsViewStore.getCurrentTab?.fullPath)
+  // const activeKey = computed(() => tabsViewStore.getCurrentTab?.fullPath)
   // 缓存的路由组件列表
   const keepAliveComponents = computed(() => keepAliveStore.list)
   /** 过渡动画 */
@@ -63,16 +63,16 @@
     return name ?? "fade-slide"
   })
 
-  // tabs 编辑（remove || add）
-  const editTabItem = (targetKey: string, action: string) => {
-    if (action == "remove") {
-      itemRefs[targetKey]?.removeTab()
-    }
-  }
-  // 切换页面
-  const changePage = (key) => {
-    Object.is(route.fullPath, key) || router.push(key)
-  }
+  // // tabs 编辑（remove || add）
+  // const editTabItem = (targetKey: string, action: string) => {
+  //   if (action == "remove") {
+  //     itemRefs[targetKey]?.removeTab()
+  //   }
+  // }
+  // // 切换页面
+  // const changePage = (key) => {
+  //   Object.is(route.fullPath, key) || router.push(key)
+  // }
 </script>
 
 <style lang="less" scoped>
@@ -81,8 +81,7 @@
   }
 
   .tabs-view {
-    border-top: 1px solid #eee;
-
+    // border-top: 1px solid #eee;
     :deep(.tabs) {
       .ant-tabs-nav {
         @apply bg-white dark:bg-black;
@@ -132,8 +131,9 @@
     }
 
     .tabs-view-content {
-      height: calc(100vh - 174px - var(--app-footer-height));
-      margin: 10px;
+      height: calc(100vh - 126px - var(--app-footer-height));
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
+      margin: 0 20px 20px;
       overflow: hidden;
       background: #fff;
       border-radius: 4px;

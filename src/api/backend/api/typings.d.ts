@@ -733,7 +733,7 @@ declare namespace API {
 
   type ResOp = {
     data: Record<string, any>;
-    status: number;
+    code: number;
     message: string;
   };
 

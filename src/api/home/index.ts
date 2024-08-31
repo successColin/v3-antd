@@ -6,3 +6,12 @@ export async function getUserPermission() {
     method: 'get',
   });
 }
+
+// 上传文件
+export async function fileUpload(data) {
+  return request('file/upload', {
+    method: "post",
+    data,
+    requestType: 'form'
+  });
+}

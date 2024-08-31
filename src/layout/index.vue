@@ -5,14 +5,9 @@
     </router-link>
     <div class="fixed__header--right">
       <a-space :size="20">
-        <Search />
-        <a-tooltip title="锁定屏幕" placement="bottom">
-          <LockOutlined class="colorfff" @click="lockscreenStore.setLock(true)" />
-        </a-tooltip>
-        <FullScreen />
         <a-dropdown placement="bottomRight">
           <a-avatar style="cursor: pointer" :src="userInfo.avatar" :alt="userInfo.nickName">{{
-            userInfo?.nickName?.slice(0, 1)
+            userInfo?.nickName
           }}</a-avatar>
           <template #overlay>
             <a-menu>
@@ -27,7 +22,6 @@
             </a-menu>
           </template>
         </a-dropdown>
-        <ProjectSetting />
       </a-space>
     </div>
   </div>
@@ -52,26 +46,21 @@
       <a-layout-content class="layout-content">
         <tabs-view />
       </a-layout-content>
-      <PageFooter />
     </a-layout>
   </a-layout>
 </template>
 
 <script lang="ts" setup>
-  import { FullScreen, ProjectSetting, Search } from "@/layout/header/components"
   import { useLayoutSettingStore } from "@/store/modules/layoutSetting"
-  import { useLockscreenStore } from "@/store/modules/lockscreen"
   import { useUserStore } from "@/store/modules/user"
-  import { LockOutlined, PoweroffOutlined, QuestionCircleOutlined } from "@ant-design/icons-vue"
+  import { PoweroffOutlined, QuestionCircleOutlined } from "@ant-design/icons-vue"
   import { Modal, message } from "ant-design-vue"
   import { storeToRefs } from "pinia"
   import { createVNode } from "vue"
-  import PageFooter from "./footer"
   import PageHeader from "./header/index.vue"
   import AsideMenu from "./menu/menu.vue"
   import { TabsView } from "./tabs"
 
-  const lockscreenStore = useLockscreenStore()
   const layoutSettingStore = useLayoutSettingStore()
   const { layoutSetting } = storeToRefs(layoutSettingStore)
   const collapsed = ref<boolean>(false)
@@ -119,6 +108,7 @@
     overflow: hidden;
     .ant-layout {
       overflow: hidden;
+      background: #fbfbfb !important;
     }
     .layout-content {
       flex: none;
@@ -126,7 +116,8 @@
   }
   .fixed__header {
     height: 60px;
-    background: linear-gradient(to right, rgba(17, 75, 94, 0.8) 30%, rgb(17, 75, 94) 100%);
+    // background: linear-gradient(to right, rgba(17, 75, 94, 0.8) 30%, rgb(17, 75, 94) 100%);
+    background: rgb(17, 75, 94);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -134,5 +125,10 @@
     img {
       height: 30px;
     }
+  }
+
+  ::v-deep(.ant-layout .ant-layout-header) {
+    height: 50px !important;
+    background-color: rgb(251, 251, 251) !important;
   }
 </style>
