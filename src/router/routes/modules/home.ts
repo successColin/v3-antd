@@ -1,14 +1,13 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-const moduleName = 'home'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: `/${moduleName}`,
-    name: moduleName,
+    path: '/home',
+    name: 'home',
     meta: {
       title: '首页',
-      icon: 'ant-design:dashboard-outlined',
+      icon: 'Home',
     },
     component: () => import('@/views/dashboard/welcome/index.vue'),
   },

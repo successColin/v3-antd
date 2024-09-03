@@ -1,6 +1,6 @@
 <template>
   <template v-if="item?.meta?.icon">
-    <Icon :icon="item.meta.icon" />
+    <Icon :icon="item.meta.icon" type="svg" />
   </template>
   <span v-if="!collapsed">{{ item?.meta?.title }}</span>
 </template>

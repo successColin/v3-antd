@@ -170,3 +170,17 @@ export const str2tree = (str: string, treeData: DataNode[] = [], separator = ':'
     }
   }, treeData);
 };
+
+
+export const tableColumns = (columns) => {
+  return columns.map((v) => {
+    if (!v.width) {
+      return {
+        ...v,
+        width: 140,
+        ellipsis: true
+      }
+    }
+    return v
+  })
+}

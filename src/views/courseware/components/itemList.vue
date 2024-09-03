@@ -1,21 +1,21 @@
 <template>
-  <div v-for="v in list" :key="v" class="itemList flex-cc" :style="itemStyle">
+  <div v-for="v in list" :key="v" class="itemList flex-cc">
     <div class="itemList__img">
       <img :src="v.cover" alt="图片不存在" />
-      <div class="itemList__img--mask">
-        <div class="itemList__btn">
-          <div @click="handleDelete(v)">
-            <img src="~@/assets/images/delete.png" alt="" />
-            <div>删除</div>
-          </div>
-          <div @click="handleEdit(v)">
-            <img src="~@/assets/images/edit.png" alt="" />
-            <div>编辑</div>
-          </div>
-        </div>
+      <div class="itemList__img--del flex-cc" @click="handleDelete(v)">
+        <img src="~@/assets/images/delete.png" alt="" />
+        <div>删除</div>
+      </div>
+      <div class="itemList__img--mask flex-cc">
+        {{ v.name }}
       </div>
     </div>
-    <div class="oneLine" :title="v.name">{{ v.name }}</div>
+    <div class="oneLine" :title="v.name">
+      <div class="itemList__edit">
+        <a-button primary block @click="handleEdit(v)">编辑</a-button>
+      </div>
+      <a-button style="margin-left: 8px" type="primary" block @click="handleJump(v)">进入</a-button>
+    </div>
   </div>
 </template>
 
@@ -23,7 +23,6 @@
   withDefaults(
     defineProps<{
       list: Array<any>
-      itemStyle: any
     }>(),
     {}
   )
@@ -36,12 +35,24 @@
   const handleDelete = (v) => {
     emit("del", v)
   }
+
+  import { useRouter } from "vue-router"
+  const router = useRouter()
+  const handleJump = (item) => {
+    router.push({ name: "courseware-catalog", query: { id: item.id } })
+  }
 </script>
 
 <style lang="less" scoped>
   .itemList {
-    border: 1px solid #d9d9d9;
     overflow: hidden;
+    background: #f2f8f7;
+    border-radius: 8px;
+    width: 160px;
+    height: 272px;
+    flex-shrink: 0;
+    margin: 0 22px 22px 0;
+    cursor: pointer;
     &__img {
       position: relative;
       flex: 1;
@@ -52,47 +63,63 @@
       }
       &--mask {
         position: absolute;
-        top: 0;
+        bottom: 0;
         left: 0;
         width: 100%;
-        height: 0;
-        background: rgba(34, 34, 34, 0.5);
-        .itemList__btn {
-          width: 100%;
-          position: absolute;
-          bottom: 5px;
-          display: flex;
-          justify-content: space-around;
-          & > div {
-            text-align: center;
+        height: 42px;
+        background: linear-gradient(180deg, rgba(34, 34, 34, 0) 0%, #222222 100%);
+        font-family:
+          PingFang SC,
+          PingFang SC;
+        font-weight: bold;
+        font-size: 14px;
+        color: #ffffff;
+        line-height: 22px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+      }
+      &--del {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 40px;
+        height: 46px;
 
-            font-family:
-              PingFang SC,
-              PingFang SC;
-            font-weight: 500;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
+        background: rgba(255, 255, 255, 0.75);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
 
-            & > img {
-              width: 16px;
-              height: 16px;
-            }
-          }
+        font-family:
+          PingFang SC,
+          PingFang SC;
+        font-weight: 500;
+        font-size: 12px;
+        color: #1890ff;
+        line-height: 22px;
+        line-height: 1;
+
+        & > img {
+          width: 16px;
+          height: 16px;
+          margin-bottom: 4px;
         }
       }
     }
-    &__img:hover {
-      .itemList__img--mask {
-        height: 100%;
-        transition: all 0.3s;
-      }
+
+    &__edit {
+      // ::v-deep(.ant-btn.ant-btn-block) {
+      //   border: 1px solid #1890ff;
+      //   color: #1890ff;
+      // }
     }
+
     & > div:nth-child(2) {
-      height: 36px;
-      padding: 0 10px;
-      width: 100%;
+      height: 42px;
+      padding: 8px;
       text-align: center;
-      line-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
     }
   }
 </style>

@@ -28,20 +28,20 @@
 
   const menus = computed(() => {
     if (route.meta?.namePath) {
-      let children = userStore.menus
+      let children = userStore.menusAll
       const paths = route.meta?.namePath?.map((item) => {
         const a = children.find((n) => n.name === item)
         children = a?.children || []
         return a
       })
       return [
-        {
-          name: "__index",
-          meta: {
-            title: "首页"
-          },
-          children: userStore.menus
-        },
+        // {
+        //   name: "__index",
+        //   meta: {
+        //     title: "首页"
+        //   },
+        //   children: userStore.menus
+        // },
         ...paths
       ]
     }

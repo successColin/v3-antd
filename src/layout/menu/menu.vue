@@ -17,13 +17,13 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, type PropType } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-  import { Menu, type MenuTheme, type MenuProps } from 'ant-design-vue'
-  import SubMenuItem from './components/sub-menu-item.vue'
-  import { useUserStore } from '@/store/modules/user'
-  import { useLayoutSettingStore } from '@/store/modules/layoutSetting'
-  import { LOGIN_NAME } from '@/router/constant'
+  import { LOGIN_NAME } from "@/router/constant"
+  import { useLayoutSettingStore } from "@/store/modules/layoutSetting"
+  import { useUserStore } from "@/store/modules/user"
+  import { Menu, type MenuProps, type MenuTheme } from "ant-design-vue"
+  import { computed, ref, watch, type PropType } from "vue"
+  import { useRoute, useRouter } from "vue-router"
+  import SubMenuItem from "./components/sub-menu-item.vue"
 
   const props = defineProps({
     collapsed: {
@@ -43,10 +43,9 @@
   const selectedKeys = ref<string[]>([currentRoute.name as string])
 
   const menus = computed(() => userStore.menus)
-  console.log(menus.value)
   // console.log('menus', menus.value);
   /** 侧边栏布局 */
-  const isSideMenu = computed(() => layoutSettingStore.layoutSetting.layout === 'sidemenu')
+  const isSideMenu = computed(() => layoutSettingStore.layoutSetting.layout === "sidemenu")
   const getRouteByName = (name: string) => router.getRoutes().find((n) => n.name === name)
 
   // 获取当前打开的子菜单
@@ -79,7 +78,7 @@
   )
 
   // 点击菜单
-  const clickMenuItem: MenuProps['onClick'] = ({ key }) => {
+  const clickMenuItem: MenuProps["onClick"] = ({ key }) => {
     if (key === currentRoute.name) return
     const preSelectedKeys = selectedKeys.value
     const targetRoute = getRouteByName(key as string)

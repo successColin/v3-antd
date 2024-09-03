@@ -11,7 +11,7 @@
         <global-input v-model:value="formData.name" placeholder="请输入课本名称" />
       </a-form-item>
       <a-form-item name="gradIds" label="适用班级（可多选）">
-        <global-checkbox v-model:value="formData.gradIds" :options="tabArrs" />
+        <global-checkbox v-model:value="formData.gradIds" :options="tabArrs" :disabled="!!formData.id" />
       </a-form-item>
       <a-form-item name="fileList" label="课本封面">
         <global-upload-Avatar

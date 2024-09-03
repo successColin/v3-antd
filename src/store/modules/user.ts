@@ -19,6 +19,7 @@ export const useUserStore = defineStore(
     const token = ref<string>();
     const perms = ref<string[]>([]);
     const menus = ref<RouteRecordRaw[]>([]);
+    const menusAll = ref<RouteRecordRaw[]>([]);
     const userInfo = ref<Partial<API.UserEntity>>({});
 
     const sortMenus = (menus: RouteRecordRaw[] = []) => {
@@ -38,6 +39,7 @@ export const useUserStore = defineStore(
       token.value = '';
       perms.value = [];
       menus.value = [];
+      menusAll.value = [];
       userInfo.value = {};
       resetRouter();
       setTimeout(() => {
@@ -83,6 +85,7 @@ export const useUserStore = defineStore(
       // const [permsData] = await Promise.all([accountPermissions()]); // menusData
       // perms.value = permsData;
       const result = generateDynamicRoutes([]);
+      menusAll.value = JSON.parse(JSON.stringify(result));
       menus.value = sortMenus(result);
     };
     /** 登出 */
@@ -96,6 +99,7 @@ export const useUserStore = defineStore(
       token,
       perms,
       menus,
+      menusAll,
       userInfo,
       login,
       afterLogin,

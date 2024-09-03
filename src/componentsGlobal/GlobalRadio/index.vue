@@ -1,5 +1,7 @@
 <template>
-  <a-checkbox-group :value="value" name="checkboxgroup" :style="style" :disabled="disabled" :options="options" @change="handleChange" />
+  <a-radio-group :value="value" name="radioGroup" @change="handleChange" :disabled="disabled">
+    <a-radio :value="v.value" v-for="(v, i) in options" :key="i">{{ v.label }}</a-radio>
+  </a-radio-group>
 </template>
 
 <script setup lang="ts">

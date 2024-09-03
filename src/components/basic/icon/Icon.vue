@@ -1,14 +1,13 @@
 <script setup lang="ts">
-  import { computed, type CSSProperties, type VNode } from 'vue'
-  import { useAttrs } from 'vue'
-  import { Icon as IconifyIcon } from '@iconify/vue'
-  import { isString, omit } from 'lodash-es'
-  import SvgIcon from './src/SvgIcon.vue'
-  import IconFont from './src/icon-font'
-  import type { IconProps } from './src/props'
+  import { Icon as IconifyIcon } from "@iconify/vue"
+  import { isString, omit } from "lodash-es"
+  import { computed, useAttrs, type CSSProperties, type VNode } from "vue"
+  import SvgIcon from "./src/SvgIcon.vue"
+  import IconFont from "./src/icon-font"
+  import type { IconProps } from "./src/props"
 
   const props = withDefaults(defineProps<IconProps>(), {
-    type: 'iconify',
+    type: "iconify",
     size: 16
   })
 
@@ -24,7 +23,7 @@
     return {
       fontSize: `${fs}px`,
       color,
-      display: 'inline-flex'
+      display: "inline-flex"
     }
   })
 
@@ -32,7 +31,7 @@
   const handleIconUpdated = (vnode: VNode) => {
     const title = attrs.title
     if (vnode.el && title) {
-      vnode.el.insertAdjacentHTML?.('afterbegin', `<title>${title}</title>`)
+      vnode.el.insertAdjacentHTML?.("afterbegin", `<title>${title}</title>`)
     }
   }
 </script>

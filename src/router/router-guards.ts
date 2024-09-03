@@ -1,4 +1,4 @@
-// import { portalSystemUrl } from '@/constants/env'
+import { portalSystemUrl } from '@/constants/env'
 import { useKeepAliveStore } from '@/store/modules/keepAlive'
 import { useUserStore } from '@/store/modules/user'
 import { to as _to } from '@/utils/awaitTo'
@@ -8,6 +8,7 @@ import type { RouteLocationNormalized, Router } from 'vue-router'
 import { NavigationFailureType, isNavigationFailure } from 'vue-router'
 import type { WhiteNameList } from './constant'
 import { LOGIN_NAME, PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from './constant'
+
 
 NProgress.configure({ showSpinner: false })
 
@@ -35,16 +36,20 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
         if (userStore.menus.length === 0) {
           // 从后台获取菜单
           const [err] = await _to(userStore.afterLogin())
-          console.log(to.name, err)
           if (err) {
             userStore.clearLoginStatus()
             Modal.destroyAll()
             return next({ name: LOGIN_NAME })
           }
-          // 解决警告：No match found for location with path "XXXXXXX"
-          
           if (to.name === PAGE_NOT_FOUND_NAME) {
-            next({ path: to.fullPath, replace: true })
+            let params = {
+              path: to.fullPath,
+              replace: true
+            } as any
+            if (!to.query.sso_token) {
+              params.query = to.query
+            }
+            next(params)
           } else if (!hasRoute) {
             // 如果该路由不存在，可能是动态注册的路由，它还没准备好，需要再重定向一次到该路由
             next({ ...to, replace: true })
@@ -59,7 +64,7 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
       if (whiteNameList.some((n) => n === to.name)) {
         next()
       } else {
-        // window.location.href = portalSystemUrl.toString()
+        window.location.href = portalSystemUrl.toString()
         next(false)
       }
     }
@@ -119,8 +124,7 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
     if (!userStore.token) {
       keepAliveStore.clear()
     }
-    // console.log('keepAliveStore', keepAliveStore.list);
-    NProgress.done() // finish progress bar
+    NProgress.done()
   })
 
   router.onError((error) => {

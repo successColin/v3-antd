@@ -108,12 +108,14 @@
     height: 170px !important;
   }
 
+  ::v-deep(.ant-upload.ant-upload-select) {
+    background-color: #fff !important;
+  }
+
   .avatar {
     &__btn {
       color: #666;
       font-size: 12px;
-    }
-    &__showItem {
     }
   }
 </style>

@@ -9,7 +9,8 @@
   import { svgIconProps } from './props'
 
   defineOptions({
-    name: 'SvgIcon'
+    name: 'SvgIcon',
+    prefix: 'svg-icon'
   })
 
   const props = defineProps(svgIconProps)

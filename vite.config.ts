@@ -109,8 +109,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         less: {
+          modifyVars: {
+            'primary-color': '#1890FF', // 替换默认主题色
+          },
           javascriptEnabled: true,
-          modifyVars: {},
           // additionalData: `
           //   @import '@/styles/variables.less';
           // `,

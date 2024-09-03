@@ -1,25 +1,43 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const moduleName = 'courseware'
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/courseware',
-    name: moduleName,
-    redirect: { name: `${moduleName}-catalog` },
+    name: 'courseware',
+    redirect: { name: 'courseware-textbook' },
     meta: {
       title: '课件题库',
-      icon: 'ant-design:desktop-outlined',
+      icon: 'Book',
     },
     children: [
       {
-        path: 'catalog',
-        name: `${moduleName}-catalog`,
+        path: '/courseware/textbook',
+        name: 'courseware-textbook',
         meta: {
-          title: '目录配置',
+          title: '课本配置',
           keepAlive: true,
         },
-        component: () => import('@/views/courseware/catalog.vue'),
+        component: () => import('@/views/courseware/textbook.vue'),
+        children: [
+          {
+            path: '/courseware/catalog',
+            name: 'courseware-catalog',
+            meta: {
+              title: '目录配置',
+              keepAlive: true,
+              hideInMenu: true,
+            },
+            component: () => import('@/views/courseware/catalog.vue'),
+          },
+        ]
+      },
+      {
+        path: '/courseware/config',
+        name: `courseware-config`,
+        meta: {
+          title: '课件配置',
+        },
+        component: () => import('@/views/courseware/config.vue'),
       },
     ],
   },

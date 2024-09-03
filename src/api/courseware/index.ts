@@ -1,20 +1,12 @@
 import { request } from '@/utils/request';
 
-// 获取当前登陆人班级-年级
-export async function getClassGrades() {
-  return request('sso/classGrades', {
-    method: 'get',
-  });
-}
-
 // 获取课件列表
 export async function getCourseList(params) {
-  return request('course/queryCourseList', {
+  return request('course/queryBookList', {
     method: 'get',
     params
   });
 }
-
 
 // 新增课本篇章节
 export async function addCourse(data) {

@@ -10,7 +10,7 @@
         <TabsOperator :tab-item="route" :is-extra="true" />
       </template>
     </a-tabs> -->
-    <div class="tabs-view-content" :style="{ overflow }">
+    <div class="tabs-view-content">
       <router-view v-slot="{ Component }">
         <template v-if="Component">
           <Suspense>
@@ -134,7 +134,7 @@
       height: calc(100vh - 126px - var(--app-footer-height));
       box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
       margin: 0 20px 20px;
-      overflow: hidden;
+      // overflow: initial;
       background: #fff;
       border-radius: 4px;
       padding: 10px;
