@@ -1,5 +1,12 @@
 <template>
-  <a-modal :open="show" :title="title" @cancel="handleCancel" style="top: 20vh" :afterClose="handleAfterClose">
+  <a-modal
+    :open="show"
+    :title="title"
+    @cancel="handleCancel"
+    centered
+    style="margin-bottom: 40px"
+    :afterClose="handleAfterClose"
+  >
     <slot></slot>
     <template #footer>
       <a-button @click="handleCancel">取消</a-button>

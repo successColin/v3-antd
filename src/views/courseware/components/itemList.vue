@@ -6,7 +6,7 @@
         <img src="~@/assets/images/delete.png" alt="" />
         <div>删除</div>
       </div>
-      <div class="itemList__img--mask flex-cc">
+      <div class="itemList__img--mask oneLine" :title="v.name">
         {{ v.name }}
       </div>
     </div>
@@ -67,6 +67,8 @@
         left: 0;
         width: 100%;
         height: 42px;
+        line-height: 42px;
+        text-align: center;
         background: linear-gradient(180deg, rgba(34, 34, 34, 0) 0%, #222222 100%);
         font-family:
           PingFang SC,
@@ -74,8 +76,8 @@
         font-weight: bold;
         font-size: 14px;
         color: #ffffff;
-        line-height: 22px;
         text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+        padding: 0 10px;
       }
       &--del {
         position: absolute;

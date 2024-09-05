@@ -10,8 +10,9 @@
     @remove="handleRemove"
   >
     <div v-if="!imageUrl" class="avatar__btn">
+      <img src="~@/assets/images/upload.png" alt="" style="width: 24px; height: 24px; margin-bottom: 6px" />
       <div>图片尺寸</div>
-      <div style="margin-top: 5px">{{ limitDesc }}</div>
+      <div>{{ limitDesc }}</div>
     </div>
   </a-upload>
 </template>

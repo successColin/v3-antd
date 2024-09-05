@@ -1,5 +1,6 @@
-import dayjs from 'dayjs';
+import { execDecrypt } from "@/utils/aes";
 import type { DataNode } from 'ant-design-vue/es/vc-tree-select/interface';
+import dayjs from 'dayjs';
 
 /**
  * @description 处理首字母大写 abc => Abc
@@ -174,13 +175,31 @@ export const str2tree = (str: string, treeData: DataNode[] = [], separator = ':'
 
 export const tableColumns = (columns) => {
   return columns.map((v) => {
+    v.ellipsis = true
     if (!v.width) {
       return {
         ...v,
         width: 140,
-        ellipsis: true
+        ellipsis: true,
       }
     }
     return v
   })
+}
+
+export const getNewData = (tree) => {
+  if (!tree || typeof tree !== "object") return tree
+  if (Array.isArray(tree)) {
+    return tree.map((node) => getNewData(node)).filter((node) => node !== null)
+  }
+  if (tree.childNodes && tree.childNodes.length === 0 || !tree.childNodes) {
+    tree.createName = execDecrypt(tree.createName)
+    tree.updateName = execDecrypt(tree.updateName)
+    delete tree.childNodes
+  } else if (tree.childNodes) {
+    tree.createName = execDecrypt(tree.createName)
+    tree.updateName = execDecrypt(tree.updateName)
+    tree.childNodes = getNewData(tree.childNodes)
+  }
+  return tree
 }

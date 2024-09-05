@@ -4,6 +4,7 @@ import { useUserStore } from '@/store/modules/user';
 import { message as $message, Modal } from 'ant-design-vue';
 import type { AxiosResponse } from 'axios';
 import axios, { CanceledError } from 'axios';
+import { execEncrypt } from "@/utils/aes";
 // import qs from 'qs';
 
 const UNKNOWN_ERROR = '未知错误，请重试';
@@ -17,6 +18,20 @@ service.interceptors.request.use(
     if (token && config.headers) {
       config.headers['authorization'] = `Bearer ${token}`;
     }
+    console.log(config.data)
+    const currentData = config.data || {}
+    if (currentData.createName) {
+      currentData.createName = execEncrypt(currentData.createName)
+    }
+    if (currentData.createNo) {
+      currentData.createNo = execEncrypt(currentData.createNo)
+    }
+    if (currentData.updateName) {
+      currentData.updateName = execEncrypt(currentData.updateName)
+    }
+    if (currentData.updateNo) {
+      currentData.updateNo = execEncrypt(currentData.updateNo)
+    }
     return config;
   },
   (error) => {
@@ -25,7 +40,7 @@ service.interceptors.request.use(
 );
 service.interceptors.response.use(
   (response: AxiosResponse<BaseResponse>) => {
-    const res = response.data;
+    const res = response.data as any;
     if (res.status !== ResultEnum.SUCCESS) {
       $message.error(res.message || UNKNOWN_ERROR);
       // Illegal token
@@ -81,7 +96,7 @@ export async function request(url: string, config: any = {}) {
       // }
     })) as AxiosResponse<BaseResponse>;
     const { data } = response;
-    const { status, message } = data || {};
+    const { status, message } = data || {} as any;
     const hasSuccess = data && Reflect.has(data, 'status') && status === ResultEnum.SUCCESS;
 
     if (hasSuccess) {

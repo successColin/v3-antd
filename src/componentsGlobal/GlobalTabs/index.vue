@@ -1,6 +1,6 @@
 <template>
   <a-tabs :activeKey="activeKey" @change="handleChange">
-    <a-tab-pane v-for="v in tabArrs" :key="v.key" :tab="v.tab">
+    <a-tab-pane v-for="v in tabArrs" :key="v.value" :tab="v.label">
       <slot></slot>
     </a-tab-pane>
     <template #rightExtra>
@@ -11,8 +11,8 @@
 
 <script setup lang="ts">
   type tabArrsType = {
-    tab: string
-    key: number
+    label: string
+    value: number
   }
   withDefaults(
     defineProps<{

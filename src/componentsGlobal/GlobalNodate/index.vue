@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-cc" :style="`width: 100%; margin-bottom: ${mb}px; margin-top: ${mt}`">
+  <div class="flex-cc" style="width: 100%">
     <a-empty>
       <template #image>
         <img class="nodata__img" src="~@/assets/images/nodata.png" alt="" />

@@ -42,9 +42,7 @@ export function useTable(
         params.page = paginationData.currentPage
         params.page_size = paginationData.pageSize
       }
-      console.log(params)
       const res = await getApi(params)
-      console.log(res)
       if (Object.keys(paginationData).length) {
         allDate.value = res
         const { data, total } = res
@@ -60,47 +58,56 @@ export function useTable(
     }
   }
   const handleSearch = () => {
-    // paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
+    if (paginationData.currentPage) {
+      paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
+    } else {
+      getTableData()
+    }
   }
   const { uConfirm } = useBottom()
-  const handleDelete = (row: any) => {
-    delFun(row.id, "删除该条数据")
+  const handleDelete = (row: any, dec?: string) => {
+    delFun([row.id], dec || "删除该条数据")
   }
   const handleBatchDel = () => {
-    const ids = multipleSelection.value.join(",")
-    if (!ids) {
+    console.log(multipleSelection.value, multipleSelection.value.length)
+    if (!multipleSelection.value.length) {
       return message.warn('请选择数据')
     }
-    delFun(ids, "批量删除数据")
+    delFun(multipleSelection.value, "批量删除数据")
   }
-  const delFun = (id: string | number, dec: string) => {
+  const delFun = (ids: Array<any>, dec: string) => {
     uConfirm(dec, async () => {
-      await delApi({
-        id,
-        status: 2
-      })
+      await delApi(ids)
       message.success('删除成功')
+      multipleSelection.value = []
       handleSearch()
     })
   }
   const multipleSelectionAllArr = ref<any>([])
-  const handleSelectionChange = (val: Array<any>) => {
-    nextTick(() => {
-      if (!val.length) return
-      multipleSelection.value = []
-      multipleSelectionAllArr.value = val
-      val.forEach((v) => {
-        return multipleSelection.value.push(v.id)
-      })
-    })
-  }
-  const indexMethod = (index: number) => {
-    return index + 1
+
+  const rowSelection = ref({
+    checkStrictly: true,
+    fixed: true,
+    columnWidth: 50,
+    onSelect: (record, selected: boolean, selectedRows) => {
+      multipleSelection.value = selectedRows.map((v) => v.id)
+      multipleSelectionAllArr.value = selectedRows
+      console.log(multipleSelection.value, multipleSelectionAllArr.value)
+    },
+    onSelectAll: (selected: boolean, selectedRows) => {
+      multipleSelection.value = selectedRows.map((v) => v.id)
+      multipleSelectionAllArr.value = selectedRows
+      console.log(multipleSelection.value, multipleSelectionAllArr.value)
+    }
+  })
+
+  function handleResizeColumn(w, col) {
+    col.width = w;
   }
   return {
+    rowSelection,
     allDate,
     height,
-    indexMethod,
     multipleSelection,
     multipleSelectionAllArr,
     loading,
@@ -109,6 +116,6 @@ export function useTable(
     handleSearch,
     handleDelete,
     handleBatchDel,
-    handleSelectionChange
+    handleResizeColumn
   }
 }

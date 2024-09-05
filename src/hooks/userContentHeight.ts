@@ -5,7 +5,8 @@ export function watchEle(ele: Ref<HTMLDivElement | null>, state: Boolean) {
     if (ele.value) {
       if (state) {
         const tableH = document.querySelector('.ant-table-header')?.clientHeight as any || 0
-        height.value = ele.value.clientHeight - tableH
+        const tableBtn = document.querySelector('.globalTable__box--btn')?.clientHeight as any || 0
+        height.value = ele.value.clientHeight - tableH - tableBtn
       } else {
         height.value = ele.value.clientHeight
       }

@@ -1,6 +1,6 @@
 <template>
   <global-modal
-    :title="modaleTitle"
+    :title="title"
     :show="show"
     :loading="btnOkLoading"
     @ok="handleOk"
@@ -8,18 +8,8 @@
     @update:show="emit('update:show', false)"
   >
     <a-form ref="formRef" layout="vertical" :rules="rules" :model="formData">
-      <a-form-item name="name" label="课本名称">
-        <global-input v-model:value="formData.name" placeholder="请输入课本名称" />
-      </a-form-item>
-      <a-form-item name="type" label="课本类型">
-        <global-radio v-model:value="formData.type" :options="tabArrs"></global-radio>
-      </a-form-item>
-      <a-form-item name="fileList" label="课本封面">
-        <global-upload-Avatar
-          v-model:fileList="formData.fileList"
-          :limitSize="[160, 224]"
-          limitDesc="160 * 224"
-        ></global-upload-Avatar>
+      <a-form-item name="name" :label="formLabel">
+        <global-input v-model:value="formData.name" :placeholder="`请输入${formLabel}`" />
       </a-form-item>
     </a-form>
   </global-modal>
@@ -29,43 +19,45 @@
   const props = withDefaults(
     defineProps<{
       show: boolean
-      tabArrs?: any[]
+      title?: string
+      parentId?: number
+      modelType?: number
       currentObj?: any
     }>(),
     {
       show: false,
-      tabArrs: () => [],
+      title: "",
+      modelType: 2,
       currentObj: () => {}
     }
   )
 
-  // #region
+  const formLabel = computed(() => {
+    return props.modelType === 2 ? "篇目录" : props.modelType === 3 ? "章目录" : "节目录"
+  })
+
+  // #region 表单
   import { addCourse, editCourse } from "@/api/courseware"
   import { message } from "ant-design-vue"
   import type { Rule } from "ant-design-vue/es/form"
   const DEFAULT_FORM_DATA: any = {
-    cover: "",
     name: "",
-    parentId: 0,
+    parentId: "",
     type: "",
-    fileList: []
+    id: ""
   }
   const formData = ref(JSON.parse(JSON.stringify(DEFAULT_FORM_DATA)))
   const rules: Record<string, Rule[]> = reactive({
-    name: [{ required: true, message: "请输入课本名称", trigger: ["change", "blur"] }],
-    type: [{ required: true, message: "请选择课本类型", trigger: ["change", "blur"] }],
-    fileList: [{ required: true, message: "请上传课本封面", trigger: ["change"] }]
+    name: [{ required: true, message: "请输入目录", trigger: ["change", "blur"] }]
   })
   const btnOkLoading = ref<boolean>(false)
   const formRef = ref()
   const handleOk = () => {
+    console.log("formData", formData.value)
     formRef.value.validate().then((v) => {
       btnOkLoading.value = true
       const api = formData.value.id ? editCourse : addCourse
-      api({
-        ...formData.value,
-        cover: formData.value.fileList[0].url
-      })
+      api(formData.value)
         .then(() => {
           message.success(formData.value.id ? "修改成功" : "新增成功")
           emit("update:show", false)
@@ -81,20 +73,17 @@
   }
   // #endregion
 
-  const modaleTitle = computed(() => {
-    return formData.value.id ? "编辑课本" : "新建课本"
-  })
-
   watch(
     () => props.show,
     (v) => {
-      if (v && JSON.stringify(props.currentObj) !== "{}") {
-        formData.value = JSON.parse(JSON.stringify(props.currentObj))
-        formData.value.fileList = [
-          {
-            url: props.currentObj.cover
-          }
-        ]
+      if (v) {
+        formData.value.parentId = props.parentId
+        formData.value.type = props.modelType
+        if (Object.keys(props.currentObj).length) {
+          console.log(1111111111, props.currentObj)
+          formData.value.name = props.currentObj.name
+          formData.value.id = props.currentObj.id
+        }
       }
     }
   )
