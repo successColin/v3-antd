@@ -1,22 +1,22 @@
-import { ResultEnum } from '@/enums/httpEnum';
+import { ResultEnum } from "@/enums/httpEnum"
 // import { useSSEStore } from '@/store/modules/sse';
-import { useUserStore } from '@/store/modules/user';
-import { message as $message, Modal } from 'ant-design-vue';
-import type { AxiosResponse } from 'axios';
-import axios, { CanceledError } from 'axios';
-import { execEncrypt } from "@/utils/aes";
+import { useUserStore } from "@/store/modules/user"
+import { execEncrypt } from "@/utils/aes"
+import { message as $message, Modal } from "ant-design-vue"
+import type { AxiosResponse } from "axios"
+import axios, { CanceledError } from "axios"
 // import qs from 'qs';
 
-const UNKNOWN_ERROR = '未知错误，请重试';
-export const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
+const UNKNOWN_ERROR = "未知错误，请重试"
+export const baseApiUrl = import.meta.env.VITE_BASE_API_URL
 
-const service = axios.create();
+const service = axios.create()
 service.interceptors.request.use(
   (config) => {
-    const userStore = useUserStore();
-    const token = userStore.token;
+    const userStore = useUserStore()
+    const token = userStore.token
     if (token && config.headers) {
-      config.headers['authorization'] = `Bearer ${token}`;
+      config.headers["authorization"] = `Bearer ${token}`
     }
     console.log(config.data)
     const currentData = config.data || {}
@@ -32,85 +32,85 @@ service.interceptors.request.use(
     if (currentData.updateNo) {
       currentData.updateNo = execEncrypt(currentData.updateNo)
     }
-    return config;
+    return config
   },
   (error) => {
-    Promise.reject(error);
-  },
-);
+    Promise.reject(error)
+  }
+)
 service.interceptors.response.use(
   (response: AxiosResponse<BaseResponse>) => {
-    const res = response.data as any;
+    const res = response.data as any
     if (res.status !== ResultEnum.SUCCESS) {
-      $message.error(res.message || UNKNOWN_ERROR);
+      $message.error(res.message || UNKNOWN_ERROR)
       // Illegal token
       if ([1101, 1105].includes(res.status)) {
         // to re-login
         Modal.confirm({
-          title: '警告',
-          content: res.message || '账号异常，您可以取消停留在该页上，或重新登录',
-          okText: '重新登录',
-          cancelText: '取消',
+          title: "警告",
+          content: res.message || "账号异常，您可以取消停留在该页上，或重新登录",
+          okText: "重新登录",
+          cancelText: "取消",
           onOk: () => {
-            localStorage.clear();
-            window.location.reload();
-          },
-        });
+            localStorage.clear()
+            window.location.reload()
+          }
+        })
       }
-      const error = new Error(res.message || UNKNOWN_ERROR) as Error & { code: any };
-      error.code = res.status;
-      return Promise.reject(error);
+      const error = new Error(res.message || UNKNOWN_ERROR) as Error & { code: any }
+      error.code = res.status
+      return Promise.reject(error)
     } else {
       // const sseStore = useSSEStore();
       // sseStore.setServerConnectStatus(true);
-      return response;
+      return response
     }
   },
   (error) => {
     if (!(error instanceof CanceledError)) {
       // 处理 422 或者 500 的错误异常提示
-      const errMsg = error?.response?.data?.message ?? UNKNOWN_ERROR;
-      $message.error({ content: errMsg, key: errMsg });
-      error.message = errMsg;
+      const errMsg = error?.response?.data?.message ?? UNKNOWN_ERROR
+      $message.error({ content: errMsg, key: errMsg })
+      error.message = errMsg
     }
-    return Promise.reject(error);
-  },
-);
+    return Promise.reject(error)
+  }
+)
 
-type BaseResponse<T = any> = Omit<API.ResOp, 'data'> & {
-  data: T;
-};
+type BaseResponse<T = any> = Omit<API.ResOp, "data"> & {
+  data: T
+}
 
 export async function request(url: string, config: any = {}) {
   try {
-    const { requestType, isReturnResult = true, ...rest } = config;
+    const { requestType, isReturnResult = true, ...rest } = config
     const response = (await service.request({
       url: `${baseApiUrl}/${url}`,
       ...rest,
       headers: {
-        ...(requestType === 'form' ? { 'Content-Type': 'multipart/form-data' } : ''),
-        ...rest.headers,
-      },
+        ...(requestType === "form" ? { "Content-Type": "multipart/form-data" } : ""),
+        ...rest.headers
+      }
       // paramsSerializer: params => {
       //   return qs.stringify(params, { arrayFormat: 'repeat' });
       // }
-    })) as AxiosResponse<BaseResponse>;
-    const { data } = response;
-    const { status, message } = data || {} as any;
-    const hasSuccess = data && Reflect.has(data, 'status') && status === ResultEnum.SUCCESS;
+    })) as AxiosResponse<BaseResponse>
+    const { data } = response
+    const { status, message } = data || ({} as any)
+    const hasSuccess = data && Reflect.has(data, "status") && status === ResultEnum.SUCCESS
 
     if (hasSuccess) {
-      const { showSuccessMsg } = config;
+      const { showSuccessMsg } = config
       if (showSuccessMsg && message) {
-        $message.success(message);
+        $message.success(message)
       }
     }
     if (!isReturnResult) {
-      return data;
+      return data
     } else {
-      return data.data;
+      return data.data
     }
   } catch (error: any) {
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
 }
