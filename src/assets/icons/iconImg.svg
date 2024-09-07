@@ -1,0 +1,17 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="tagIcon">
+<rect width="20" height="20" rx="10" fill="white"/>
+<rect width="20" height="20" rx="10" fill="url(#paint0_linear_3602_61100)"/>
+<g id="Group 4348">
+<path id="Vector" fill-rule="evenodd" clip-rule="evenodd" d="M4.80469 6.17174C4.80469 5.86978 5.04947 5.625 5.35142 5.625H14.646C14.9479 5.625 15.1927 5.86978 15.1927 6.17174V13.8261C15.1927 14.128 14.9479 14.3728 14.646 14.3728H5.35142C5.04947 14.3728 4.80469 14.128 4.80469 13.8261V6.17174Z" stroke="#FF8718" stroke-width="1.09347" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" fill-rule="evenodd" clip-rule="evenodd" d="M7.40224 8.35917C7.6287 8.35917 7.81229 8.17557 7.81229 7.94912C7.81229 7.72266 7.6287 7.53906 7.40224 7.53906C7.17578 7.53906 6.99219 7.72266 6.99219 7.94912C6.99219 8.17557 7.17578 8.35917 7.40224 8.35917Z" stroke="#FF8718" stroke-width="1.09347" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M7.53837 9.99979L8.90521 11.0933L10.5454 9.17969L15.1927 12.7335V13.827C15.1927 14.1289 14.9479 14.3737 14.646 14.3737H5.35142C5.04947 14.3737 4.80469 14.1289 4.80469 13.827V12.7335L7.53837 9.99979Z" fill="#FF8718" stroke="#FF8718" stroke-width="1.09347" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_3602_61100" x1="10" y1="0" x2="10" y2="20" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFF6ED"/>
+<stop offset="1" stop-color="#FFEEDD"/>
+</linearGradient>
+</defs>
+</svg>

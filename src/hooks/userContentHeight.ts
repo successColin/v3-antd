@@ -13,9 +13,11 @@ export function watchEle(ele: Ref<HTMLDivElement | null>, state: boolean) {
     }
   }
   onMounted(() => {
-    setTimeout(() => {
-      calculateTableHeight()
-    }, 100)
+    nextTick(() => {
+      setTimeout(() => {
+        calculateTableHeight()
+      }, 100)
+    })
     window.addEventListener("resize", calculateTableHeight)
   })
   onBeforeUnmount(() => {

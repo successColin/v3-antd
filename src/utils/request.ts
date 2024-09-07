@@ -18,7 +18,6 @@ service.interceptors.request.use(
     if (token && config.headers) {
       config.headers["authorization"] = `Bearer ${token}`
     }
-    console.log(config.data)
     const currentData = config.data || {}
     if (currentData.createName) {
       currentData.createName = execEncrypt(currentData.createName)

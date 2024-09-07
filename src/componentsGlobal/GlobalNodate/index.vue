@@ -7,6 +7,7 @@
       <template #description>
         <span style="color: #999999; font-size: 14px"> {{ desc }} </span>
       </template>
+      <slot name="btn"></slot>
     </a-empty>
   </div>
 </template>

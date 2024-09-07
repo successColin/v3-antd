@@ -116,8 +116,8 @@
   }
   .fixed__header {
     height: 60px;
-    // background: linear-gradient(to right, rgba(17, 75, 94, 0.8) 30%, rgb(17, 75, 94) 100%);
-    background: rgb(17, 75, 94);
+    background: linear-gradient(to right, rgba(17, 75, 94, 0.8) 30%, rgb(17, 75, 94) 100%);
+    // background: rgb(17, 75, 94);
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -1,54 +1,73 @@
-import { intersectionWith, isEqual, mergeWith, unionWith } from "lodash-es"
-import type { App, Component, Plugin } from "vue"
-import { isArray, isObject } from "./is"
+import { intersectionWith, isEqual, mergeWith, unionWith } from 'lodash-es';
+import type { App, Component, Plugin } from 'vue';
+import { isArray, isObject } from './is';
 
 export function getFileExtension(filename) {
   return /[.]/.exec(filename) ? /[^.]+$/.exec(filename)?.[0] : undefined
 }
 /**
- * 将文件文件名转为文件类型后缀
- * @param {string} fileName mime type
- * @returns svg icon name
+ * 将文件文件名转为文件类型判断
  */
-export function parseMimeTypeToIconName(fileName) {
+export function parseMimeTypeToIconName(fileName, isType?) {
   if (!fileName) {
-    return "file-type-unknown"
+    return '';
   }
   const ext = getFileExtension(fileName)?.toLowerCase()
   if (!ext) {
-    return "file-type-unknown"
+    return '';
   }
-  if (["png", "jpg", "jpeg", "ico", "gif", "bmp", "webp"].includes(ext)) {
-    return "file-type-img"
+  if (['png', 'jpg', 'jpeg', 'ico', 'gif', 'bmp', 'webp'].includes(ext)) {
+    if (isType) {
+      return "1"
+    }
+    return 'iconImg';
   }
-  if (["markdown", "md", "txt"].includes(ext)) {
-    return "file-type-txt"
+  if (['mp4', 'avi', 'wmv', 'rmvb', '3gp', 'mov', 'm4v', 'flv', 'mkv'].includes(ext)) {
+    if (isType) {
+      return "2"
+    }
+    return 'iconVideo';
   }
-  if (["docx", "doc", "docm", "dot", "dotx"].includes(ext)) {
-    return "file-type-docx"
+  if (ext === 'pdf') {
+    if (isType) {
+      return "3"
+    }
+    return 'iconPdf';
   }
-  if (["csv", "xls", "xlsb", "xlsm", "xlsx", "xltx"].includes(ext)) {
-    return "file-type-excel"
+  if (['pptx', 'ppt', 'pptm'].includes(ext)) {
+    if (isType) {
+      return "4"
+    }
+    return 'iconPpt';
   }
-  if (ext === "pdf") {
-    return "file-type-pdf"
+  if (['docx', 'doc', 'docm', 'dot', 'dotx'].includes(ext)) {
+    if (isType) {
+      return "5"
+    }
+    return 'iconWord';
   }
-  if (["pptx", "ppt", "pptm"].includes(ext)) {
-    return "file-type-ppt"
+  if (['csv', 'xls', 'xlsb', 'xlsm', 'xlsx', 'xltx'].includes(ext)) {
+    if (isType) {
+      return "6"
+    }
+    return 'iconExcel';
   }
-  if (["zip", "rar", "7z", "tar", "gz", "tgz", "tar.gz", "tar.xz"].includes(ext)) {
-    return "file-type-zip"
-  }
-  if (["mp4", "avi", "wmv", "rmvb", "3gp", "mov", "m4v", "flv", "mkv"].includes(ext)) {
-    return "file-type-video"
-  }
-  if (["mp3", "wav"].includes(ext)) {
-    return "file-type-music"
-  }
-  if (["vue", "js", "go", "java", "ts", "css", "html", "php", "c", "cpp", "swift", "kt"].includes(ext)) {
-    return "file-type-code"
-  }
-  return "file-type-unknown"
+  
+  // if (['zip', 'rar', '7z', 'tar', 'gz', 'tgz', 'tar.gz', 'tar.xz'].includes(ext)) {
+  //   return 'file-type-zip';
+  // }
+  // if (['mp3', 'wav'].includes(ext)) {
+  //   return 'file-type-music';
+  // }
+  // if (
+  //   ['vue', 'js', 'go', 'java', 'ts', 'css', 'html', 'php', 'c', 'cpp', 'swift', 'kt'].includes(ext)
+  // ) {
+  //   return 'file-type-code';
+  // }
+  // if (['markdown', 'md', 'txt'].includes(ext)) {
+  //   return 'file-type-txt';
+  // }
+  return 'file-type-unknown';
 }
 
 /**

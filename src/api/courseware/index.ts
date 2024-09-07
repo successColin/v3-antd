@@ -34,8 +34,23 @@ export async function delCourse(data) {
 
 // 指定课本树结构
 export async function getCourseBookTree(data) {
-  console.log(data)
   return request(`course/${data.courseBookId}/tree`, {
+    method: 'post',
+    data
+  });
+}
+
+// 批量新增课件
+export async function addBatchCourseware(data) {
+  return request('courseware/batch/add', {
+    method: 'post',
+    data
+  });
+}
+
+// 批量删除课件
+export async function delCourseware(data) {
+  return request('courseware/chapter/delete', {
     method: 'post',
     data
   });

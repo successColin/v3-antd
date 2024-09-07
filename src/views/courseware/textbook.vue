@@ -4,7 +4,7 @@
       <a-button type="primary" @click="handleAdd">添加课本</a-button>
     </template>
     <div class="flex courseware__box">
-      <item-list v-if="catalogueList.length" :list="catalogueList" @edit="handleEdit" @del="handleDel"></item-list>
+      <item-list v-if="catalogueList.length" :list="catalogueList" @edit="handleEdit" @del="handleDel" @jump="handleJumpCatalog"></item-list>
       <global-nodate
         v-else
         :desc="`当前还没有${activeKey === 1 ? '理论课本' : '面试课本'}哦，请先添加新课本`"
@@ -53,6 +53,12 @@
   const handleEdit = (item: any) => {
     currentObj.value = item
     addModal.value = true
+  }
+
+  import { useRouter } from "vue-router"
+  const router = useRouter()
+  const handleJumpCatalog = (v: any) => {
+    router.push({ name: "courseware-catalog", query: { id: v.id } })
   }
 
   import { useBottom } from "@/hooks/useModalDel"

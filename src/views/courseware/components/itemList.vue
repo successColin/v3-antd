@@ -2,7 +2,7 @@
   <div v-for="v in list" :key="v" class="itemList flex-cc">
     <div class="itemList__img">
       <img :src="v.cover" alt="图片不存在" />
-      <div class="itemList__img--del flex-cc" @click="handleDelete(v)">
+      <div class="itemList__img--del flex-cc" @click="handleDelete(v)" v-if="isConfig">
         <img src="~@/assets/images/delete.png" alt="" />
         <div>删除</div>
       </div>
@@ -11,10 +11,10 @@
       </div>
     </div>
     <div class="oneLine" :title="v.name">
-      <div class="itemList__edit">
+      <div class="itemList__edit" v-if="isConfig">
         <a-button primary block @click="handleEdit(v)">编辑</a-button>
       </div>
-      <a-button style="margin-left: 8px" type="primary" block @click="handleJump(v)">进入</a-button>
+      <a-button type="primary" block @click="handleJump(v)">进入</a-button>
     </div>
   </div>
 </template>
@@ -23,11 +23,14 @@
   withDefaults(
     defineProps<{
       list: Array<any>
+      isConfig?: boolean
     }>(),
-    {}
+    {
+      isConfig: true
+    }
   )
 
-  const emit = defineEmits(["edit", "del"])
+  const emit = defineEmits(["edit", "del", "jump"])
 
   const handleEdit = (v) => {
     emit("edit", v)
@@ -35,11 +38,8 @@
   const handleDelete = (v) => {
     emit("del", v)
   }
-
-  import { useRouter } from "vue-router"
-  const router = useRouter()
-  const handleJump = (item) => {
-    router.push({ name: "courseware-catalog", query: { id: item.id } })
+  const handleJump = (v) => {
+    emit("jump", v)
   }
 </script>
 
@@ -108,10 +108,7 @@
     }
 
     &__edit {
-      // ::v-deep(.ant-btn.ant-btn-block) {
-      //   border: 1px solid #1890ff;
-      //   color: #1890ff;
-      // }
+      margin-right: 8px;
     }
 
     & > div:nth-child(2) {

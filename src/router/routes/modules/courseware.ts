@@ -14,8 +14,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/courseware/textbook",
         name: "courseware-textbook",
         meta: {
-          title: "课本配置",
-          keepAlive: true
+          title: '课本配置',
         },
         component: () => import("@/views/courseware/textbook.vue"),
         children: [
@@ -23,9 +22,8 @@ const routes: Array<RouteRecordRaw> = [
             path: "/courseware/catalog",
             name: "courseware-catalog",
             meta: {
-              title: "目录配置",
-              keepAlive: true,
-              hideInMenu: true
+              title: '目录配置',
+              hideInMenu: true,
             },
             component: () => import("@/views/courseware/catalog.vue")
           }
@@ -37,10 +35,21 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           title: "课件配置"
         },
-        component: () => import("@/views/courseware/config.vue")
-      }
-    ]
-  }
-]
+        component: () => import('@/views/courseware/config.vue'),
+        children: [
+          {
+            path: '/courseware/configList',
+            name: 'courseware-configList',
+            meta: {
+              title: '配置列表',
+              hideInMenu: true,
+            },
+            component: () => import('@/views/courseware/configList.vue'),
+          },
+        ]
+      },
+    ],
+  },
+];
 
 export default routes

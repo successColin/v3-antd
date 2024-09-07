@@ -69,7 +69,6 @@ export function useTable(
     delFun([row.id], dec || "删除该条数据")
   }
   const handleBatchDel = () => {
-    console.log(multipleSelection.value, multipleSelection.value.length)
     if (!multipleSelection.value.length) {
       return message.warn('请选择数据')
     }
@@ -89,16 +88,21 @@ export function useTable(
     checkStrictly: true,
     fixed: true,
     columnWidth: 50,
-    onSelect: (record, selected: boolean, selectedRows) => {
-      multipleSelection.value = selectedRows.map((v) => v.id)
+    selectedRowKeys: multipleSelection,
+    onChange: (selectedRowKeys, selectedRows) => {
+      multipleSelection.value = selectedRowKeys
       multipleSelectionAllArr.value = selectedRows
-      console.log(multipleSelection.value, multipleSelectionAllArr.value)
     },
-    onSelectAll: (selected: boolean, selectedRows) => {
-      multipleSelection.value = selectedRows.map((v) => v.id)
-      multipleSelectionAllArr.value = selectedRows
-      console.log(multipleSelection.value, multipleSelectionAllArr.value)
-    }
+    // onSelect: (record, selected: boolean, selectedRows) => {
+    // },
+    // onSelectAll: (selected: boolean, selectedRows) => {
+    //   // multipleSelection.value = selectedRows.map((v) => {
+    //   //   if (v.id) {
+    //   //     return v.id
+    //   //   }
+    //   // })
+    //   // multipleSelectionAllArr.value = selectedRows
+    // }
   })
 
   function handleResizeColumn(w, col) {
