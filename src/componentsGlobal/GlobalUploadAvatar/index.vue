@@ -43,7 +43,8 @@
     const formData = new FormData()
     formData.append("files", file)
     const data = await fileUpload(formData)
-    imageUrl.value = data[0]
+    console.log(data)
+    imageUrl.value = data[0].url
     const arr = [...props.fileList, { url: imageUrl.value }]
     loading.value = false
     emit("update:fileList", arr)

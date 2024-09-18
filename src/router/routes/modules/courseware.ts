@@ -48,6 +48,25 @@ const routes: Array<RouteRecordRaw> = [
           },
         ]
       },
+      {
+        path: "/courseware/config",
+        name: `courseware-config`,
+        meta: {
+          title: "理论题库配置"
+        },
+        component: () => import('@/views/courseware/config.vue'),
+        // children: [
+        //   {
+        //     path: '/courseware/configList',
+        //     name: 'courseware-configList',
+        //     meta: {
+        //       title: '配置列表',
+        //       hideInMenu: true,
+        //     },
+        //     component: () => import('@/views/courseware/configList.vue'),
+        //   },
+        // ]
+      },
     ],
   },
 ];

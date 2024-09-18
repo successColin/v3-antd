@@ -58,7 +58,7 @@
       btnOkLoading.value = true
       addBatchCourseware(formData.value)
         .then(() => {
-          message.success("课件新增成功")
+          message.success("课件编辑成功")
           emit("update:show", false)
           emit("refresh")
         })
