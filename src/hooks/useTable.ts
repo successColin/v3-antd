@@ -1,11 +1,12 @@
 // interface paginationData {
-//   currentPage: number
+//   pageNum: number
 //   pageSize: number
 //   total: number
 // }
-import { useBottom } from "@/hooks/useModalDel"
-import { watchEle } from "@/hooks/userContentHeight"
-import { message } from 'ant-design-vue'
+import { useBottom } from "@/hooks/useModalDel";
+import { watchEle } from "@/hooks/userContentHeight";
+import { execDecrypt } from "@/utils/aes";
+import { message } from 'ant-design-vue';
 /** 主题 hook */
 export function useTable(
   contentBoxRef: any,
@@ -18,20 +19,22 @@ export function useTable(
   const loading = ref<boolean>(false)
   const tableData = ref([])
   const multipleSelection = ref<number[]>([])
-  const allDate = ref<any>([])
   let height = ref<number>(0)
   if (contentBoxRef && searchBoxRef) {
     const { height: boxH } = watchEle(contentBoxRef, true)
     const { height: searchH } = watchEle(searchBoxRef, false)
+
+
     watch(
       [boxH, searchH],
       (v: any) => {
-        height.value = v[0] - v[1]
+
+        console.log(v)
+        height.value = v[0] - v[1] - 52
       },
       { deep: true, immediate: true }
     )
   }
-
   const getTableData = async () => {
     loading.value = true
     try {
@@ -39,27 +42,35 @@ export function useTable(
         ...searchData.value
       } as any
       if (Object.keys(paginationData).length) {
-        params.page = paginationData.currentPage
+        params.page = paginationData.pageNum
         params.page_size = paginationData.pageSize
       }
       const res = await getApi(params)
+      console.log(res)
       if (Object.keys(paginationData).length) {
-        allDate.value = res
-        const { data, total } = res
-        paginationData.total = total
-        tableData.value = data
+        const { resultData, pagination } = res
+        paginationData.total = pagination.totalCount
+        tableData.value = resultData.map((res) => {
+          return {
+            ...res,
+            createName: execDecrypt(res.createName),
+            updateName: execDecrypt(res.updateName),
+          }
+        })
       } else {
         tableData.value = res
       }
       loading.value = false
+
+      console.log(tableData)
     } catch (error) {
       tableData.value = []
       loading.value = false
     }
   }
   const handleSearch = () => {
-    if (paginationData.currentPage) {
-      paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
+    if (paginationData.pageNum) {
+      paginationData.pageNum === 1 ? getTableData() : (paginationData.pageNum = 1)
     } else {
       getTableData()
     }
@@ -93,16 +104,6 @@ export function useTable(
       multipleSelection.value = selectedRowKeys
       multipleSelectionAllArr.value = selectedRows
     },
-    // onSelect: (record, selected: boolean, selectedRows) => {
-    // },
-    // onSelectAll: (selected: boolean, selectedRows) => {
-    //   // multipleSelection.value = selectedRows.map((v) => {
-    //   //   if (v.id) {
-    //   //     return v.id
-    //   //   }
-    //   // })
-    //   // multipleSelectionAllArr.value = selectedRows
-    // }
   })
 
   function handleResizeColumn(w, col) {
@@ -110,7 +111,6 @@ export function useTable(
   }
   return {
     rowSelection,
-    allDate,
     height,
     multipleSelection,
     multipleSelectionAllArr,

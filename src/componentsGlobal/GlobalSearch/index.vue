@@ -8,6 +8,7 @@
             :style="`width: ${v.width || '200px'}`"
             :placeholder="v.placeholder"
             :is="v.component"
+            :option="v.option"
           />
         </a-form-item>
         <a-space style="margin-top: 28px">

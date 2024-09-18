@@ -1,4 +1,4 @@
-import { portalSystemUrl } from '@/constants/env'
+// import { portalSystemUrl } from '@/constants/env'
 import { useKeepAliveStore } from '@/store/modules/keepAlive'
 import { useUserStore } from '@/store/modules/user'
 import { to as _to } from '@/utils/awaitTo'
@@ -64,7 +64,7 @@ export function createRouterGuards(router: Router, whiteNameList: WhiteNameList)
       if (whiteNameList.some((n) => n === to.name)) {
         next()
       } else {
-        window.location.href = portalSystemUrl.toString()
+        // window.location.href = portalSystemUrl.toString()
         next(false)
       }
     }

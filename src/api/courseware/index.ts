@@ -55,3 +55,19 @@ export async function delCourseware(data) {
     data
   });
 }
+
+// 理论题库
+// 题型分值配置查询
+export async function getExerciseConfig() {
+  return request('exercise/typeScore/config', {
+    method: 'get',
+  });
+}
+
+// 分页查询题目列表
+export async function getExerciseList(data) {
+  return request('exercise/queryByPage', {
+    method: 'post',
+    data
+  });
+}
