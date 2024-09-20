@@ -31,6 +31,18 @@ service.interceptors.request.use(
     if (currentData.updateNo) {
       currentData.updateNo = execEncrypt(currentData.updateNo)
     }
+    if (currentData?.paramData?.createName) {
+      currentData.paramData.createName = execEncrypt(currentData.paramData.createName)
+    }
+    if (currentData?.paramData?.createNo) {
+      currentData.paramData.createNo = execEncrypt(currentData.paramData.createNo)
+    }
+    if (currentData?.paramData?.updateName) {
+      currentData.paramData.updateName = execEncrypt(currentData.paramData.updateName)
+    }
+    if (currentData?.paramData?.updateNo) {
+      currentData.paramData.updateNo = execEncrypt(currentData.paramData.updateNo)
+    }
     return config
   },
   (error) => {

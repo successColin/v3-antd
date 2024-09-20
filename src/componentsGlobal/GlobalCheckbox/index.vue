@@ -1,5 +1,12 @@
 <template>
-  <a-checkbox-group :value="value" name="checkboxgroup" :style="style" :disabled="disabled" :options="options" @change="handleChange" />
+  <a-checkbox-group
+    :value="value"
+    name="checkboxgroup"
+    :style="style"
+    :disabled="disabled"
+    :options="options"
+    @change="handleChange"
+  />
 </template>
 
 <script setup lang="ts">
@@ -24,4 +31,4 @@
   }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped></style>

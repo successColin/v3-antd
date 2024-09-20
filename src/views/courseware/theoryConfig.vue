@@ -10,13 +10,14 @@
       <div class="globalTable__box">
         <div class="globalTable__box--btn">
           <a-space>
+            <a-button :icon="h(FolderAddOutlined)" type="primary" @click="handleAdd">新增题目</a-button>
             <a-button :icon="h(DeleteOutlined)" type="primary" danger @click="handleBatchDel">批量删除</a-button>
           </a-space>
         </div>
         <global-table
           :columns="columns"
           :loading="loading"
-          :data="newTableData"
+          :data="tableData"
           :rowSelection="rowSelection"
           :height="height"
           :resizeColumn="handleResizeColumn"
@@ -28,11 +29,9 @@
             </template>
             <template v-if="column.key === 'action'">
               <span>
-                <a-button type="link" primary>编辑</a-button>
+                <a-button type="link" primary @click="handleEdit(text)">编辑</a-button>
                 <a-divider type="vertical" />
-                <a-button type="link" danger @click="handleDelete(text, `删除${text.name}的课件`)">删除</a-button>
-                <a-divider type="vertical" />
-                <a-button type="link" primary @click="handleDelete(text, `删除${text.name}的课件`)">导出</a-button>
+                <a-button type="link" danger @click="handleDelete(text, `删除${text.content}的题目`)">删除</a-button>
               </span>
             </template>
           </template>
@@ -40,16 +39,19 @@
 
         <err-config-modal
           v-model:show="errConfigVisible"
-          :currentObj="currentObj"
+          :currentArr="currentArr"
           @refresh="getTableData"
         ></err-config-modal>
+
+        <add-topic v-model:show="addTopicVisible" :currentObj="currentObj" @refresh="getTableData"></add-topic>
       </div>
     </div>
   </global-tabs>
 </template>
 <script lang="ts" setup>
-  import { DeleteOutlined } from "@ant-design/icons-vue"
+  import { DeleteOutlined, FolderAddOutlined } from "@ant-design/icons-vue"
   import { h, ref } from "vue"
+  import addTopic from "./components/addTopic.vue"
   import errConfigModal from "./components/errConfigModal.vue"
 
   const tabArrs = [
@@ -119,9 +121,9 @@
   // #endregion
 
   // #region 表格
-  import { delCourseware, getExerciseConfig, getExerciseList } from "@/api/courseware"
+  import { delExercise, getExerciseConfig, getExerciseList } from "@/api/courseware"
   import { useTable } from "@/hooks/useTable"
-  import { getNewData, tableColumns } from "@/utils/common"
+  import { tableColumns } from "@/utils/common"
   const columns = tableColumns([
     {
       title: "编号",
@@ -151,37 +153,35 @@
       dataIndex: "chapterName",
       width: 180
     },
-
     {
       title: "归属节",
       dataIndex: "sectionName",
       width: 180
     },
-
     {
       title: "创建人",
       dataIndex: "createName",
-      width: 180
+      width: 150
     },
     {
       title: "创建时间",
       dataIndex: "createTime",
-      width: 180
+      width: 170
     },
     {
       title: "更新人",
       dataIndex: "updateName",
-      width: 180
+      width: 150
     },
     {
       title: "更新时间",
       dataIndex: "updateTime",
-      width: 180
+      width: 170
     },
     {
       title: "操作",
       key: "action",
-      width: 200,
+      width: 150,
       fixed: "right"
     }
   ])
@@ -200,28 +200,32 @@
   const contentBoxRef = ref<HTMLElement | null>()
   const searchBoxRef = ref<HTMLElement | null>()
   const { height, loading, tableData, rowSelection, getTableData, handleDelete, handleBatchDel, handleResizeColumn } =
-    useTable(contentBoxRef, searchBoxRef, getExerciseList, delCourseware, searchData, paginationData)
-  const newTableData = computed(() => {
-    return getNewData(tableData.value)
-  })
+    useTable(contentBoxRef, searchBoxRef, getExerciseList, delExercise, searchData, paginationData)
 
   console.log(handleDelete)
   // #endregion
 
   // #region 弹框
-  const currentObj = ref<any>({})
+  const currentArr = ref<any>([])
   const errConfigVisible = ref<boolean>(false)
 
   const handleConsolidateConfig = async () => {
     const res = await getExerciseConfig()
-    console.log(res)
-    
+    currentArr.value = res
     errConfigVisible.value = true
   }
-  // const handleEdit = (row: any) => {
-  //   currentObj.value = row
-  //   catalogVisible.value = true
-  // }
+
+  const addTopicVisible = ref<boolean>(false)
+  const currentObj = ref<any>({})
+  const handleAdd = () => {
+    currentObj.value = {}
+    addTopicVisible.value = true
+  }
+
+  const handleEdit = (row: any) => {
+    currentObj.value = row
+    addTopicVisible.value = true
+  }
   // const handleView = (row: any) => {
   //   currentObj.value = row
   //   catalogVisible.value = true

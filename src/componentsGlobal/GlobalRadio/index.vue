@@ -21,9 +21,10 @@
   )
   const emit = defineEmits(["update:value", "change"])
   const handleChange = (val: any) => {
+    console.log(val)
     emit("update:value", val.target.value)
     emit("change", val.target.value)
   }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped></style>

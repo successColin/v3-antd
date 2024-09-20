@@ -1,11 +1,10 @@
 <template>
-  <a-input
+  <a-textarea
     :value="value"
     :placeholder="placeholder"
     :style="style"
-    allowClear
-    :type="type"
     :disabled="disabled"
+    :rows="2"
     @change="handleChange"
   />
 </template>
@@ -16,14 +15,12 @@
       value: string | number
       placeholder?: string
       style?: Object
-      type?: string
       disabled?: boolean
     }>(),
     {
       value: "",
       placeholder: "请输入",
       style: () => ({}),
-      type: "text",
       disabled: false
     }
   )

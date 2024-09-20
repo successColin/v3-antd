@@ -24,22 +24,22 @@ export const textbookType = [
 export const topicType = [
   {
     value: 1,
-    label: "判断",
+    label: "判断题",
     color: 'success'
   },
   {
     value: 2,
-    label: "单选",
+    label: "单选题",
     color: 'processing'
   },
   {
     value: 3,
-    label: "多选",
+    label: "多选题",
     color: 'purple'
   },
   {
     value: 4,
-    label: "填空",
+    label: "填空题",
     color: 'volcano'
   },
   {
@@ -47,4 +47,40 @@ export const topicType = [
     label: "简答题",
     color: 'warning'
   }
+]
+
+export const noTopicType = [
+  {
+    value: 1,
+    label: "判断题",
+    color: 'success'
+  },
+  {
+    value: 2,
+    label: "单选题",
+    color: 'processing'
+  },
+  {
+    value: 3,
+    label: "多选题",
+    color: 'purple'
+  },
+  {
+    value: 4,
+    label: "填空题",
+    color: 'volcano'
+  },
+]
+
+export const questionAnswerType = [
+  {
+    value: 1,
+    label: "正确",
+    color: 'success'
+  },
+  {
+    value: 2,
+    label: "错误",
+    color: 'processing'
+  },
 ]

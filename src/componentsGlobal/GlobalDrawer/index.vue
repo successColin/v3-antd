@@ -46,4 +46,4 @@
     emit("update:show", false)
   }
 </script>
-<style lang="scss" scoped></style>
+<style lang="less" scoped></style>

@@ -17,20 +17,20 @@ export function useTable(
   paginationData: any,
 ) {
   const loading = ref<boolean>(false)
-  const tableData = ref([])
+  const tableData = ref<any>([])
   const multipleSelection = ref<number[]>([])
   let height = ref<number>(0)
   if (contentBoxRef && searchBoxRef) {
     const { height: boxH } = watchEle(contentBoxRef, true)
     const { height: searchH } = watchEle(searchBoxRef, false)
-
-
     watch(
       [boxH, searchH],
       (v: any) => {
-
-        console.log(v)
-        height.value = v[0] - v[1] - 52
+        if (Object.keys(paginationData).length) {
+          height.value = v[0] - v[1] - 52
+        } else {
+          height.value = v[0] - v[1]
+        }
       },
       { deep: true, immediate: true }
     )
@@ -38,24 +38,34 @@ export function useTable(
   const getTableData = async () => {
     loading.value = true
     try {
-      const params = {
-        ...searchData.value
-      } as any
+      let params = {} as any
       if (Object.keys(paginationData).length) {
-        params.page = paginationData.pageNum
-        params.page_size = paginationData.pageSize
+        params.pageNum = paginationData.pageNum
+        params.pageSize = paginationData.pageSize
+        params.paramData = {
+          ...searchData.value
+        }
+      } else {
+        params = {
+          ...searchData.value
+        } as any
       }
       const res = await getApi(params)
       console.log(res)
       if (Object.keys(paginationData).length) {
         const { resultData, pagination } = res
         paginationData.total = pagination.totalCount
-        tableData.value = resultData.map((res) => {
-          return {
-            ...res,
-            createName: execDecrypt(res.createName),
-            updateName: execDecrypt(res.updateName),
+        console.log(11111)
+        tableData.value = []
+        resultData.forEach((v: any) => {
+          const createName = execDecrypt(v.createName);
+          const updateName = execDecrypt(v.updateName);
+          const obj = {
+            ...v,
+            createName,
+            updateName
           }
+          tableData.value.push(obj)
         })
       } else {
         tableData.value = res

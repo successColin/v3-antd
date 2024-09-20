@@ -1,11 +1,10 @@
 <template>
-  <a-input
+  <a-cascader
     :value="value"
     :placeholder="placeholder"
+    :options="option"
     :style="style"
-    allowClear
-    :type="type"
-    :disabled="disabled"
+    :fieldNames="fieldNames"
     @change="handleChange"
   />
 </template>
@@ -13,24 +12,24 @@
 <script setup lang="ts">
   withDefaults(
     defineProps<{
-      value: string | number
+      value: Array<any>
       placeholder?: string
       style?: Object
-      type?: string
-      disabled?: boolean
+      option: Array<any>
+      fieldNames?: any
     }>(),
     {
-      value: "",
+      value: () => [],
       placeholder: "请输入",
       style: () => ({}),
-      type: "text",
-      disabled: false
+      option: () => [],
+      fieldNames: () => ({ label: "label", value: "value", children: "children" })
     }
   )
-
   const emit = defineEmits(["update:value"])
   const handleChange = (val: any) => {
-    emit("update:value", val.target.value)
+    console.log(val)
+    emit("update:value", val)
   }
 </script>
 

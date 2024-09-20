@@ -64,9 +64,41 @@ export async function getExerciseConfig() {
   });
 }
 
+// 题型分值配置查询
+export async function editExerciseConfig(data) {
+  return request('exercise/typeScore/config/update', {
+    method: 'post',
+    data
+  });
+}
+
 // 分页查询题目列表
 export async function getExerciseList(data) {
   return request('exercise/queryByPage', {
+    method: 'post',
+    data
+  });
+}
+
+// 新增题目
+export async function addExercise(data) {
+  return request('exercise/add', {
+    method: 'post',
+    data
+  });
+}
+
+// 编辑题目
+export async function editExercise(data) {
+  return request('exercise/edit', {
+    method: 'post',
+    data
+  });
+}
+
+// 删除题目
+export async function delExercise(data) {
+  return request('exercise/delete', {
     method: 'post',
     data
   });
